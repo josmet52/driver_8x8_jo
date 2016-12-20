@@ -50,7 +50,7 @@ DIGIT_VALUES = {
 }
     
 
-def display_scroll(vTxt, baseLineColor, letLastDataOnScreen):
+def display_scroll(vTxt, txtColor, baseLineColor, letLastDataOnScreen):
 
     vTxt = vTxt.upper() # les minuscules sont converties en majuscules
     
@@ -71,17 +71,17 @@ def display_scroll(vTxt, baseLineColor, letLastDataOnScreen):
                 while vStop < len(d):
                     i=int(d[vStart:vStop])
                     if i&1 <> 0:
-                        vDisp[vCol][0]=1
+                        vDisp[vCol][0]=txtColor
                     if i&2 <> 0:
-                        vDisp[vCol][1]=1
+                        vDisp[vCol][1]=txtColor
                     if i&4 <> 0:
-                        vDisp[vCol][2]=1
+                        vDisp[vCol][2]=txtColor
                     if i&8 <> 0:
-                        vDisp[vCol][3]=1
+                        vDisp[vCol][3]=txtColor
                     if i&16 <> 0:
-                        vDisp[vCol][4]=1
+                        vDisp[vCol][4]=txtColor
                     if i&32 <> 0:
-                        vDisp[vCol][5]=1
+                        vDisp[vCol][5]=txtColor
                     if baseLineColor <> 0:
                         vDisp[vCol][6]=baseLineColor
                     if baseLineColor <> 0:
