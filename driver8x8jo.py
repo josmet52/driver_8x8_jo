@@ -105,7 +105,7 @@ def display_scroll(vTxt, txtColor, baseLineColor, letLastDataOnScreen):
         vRange = vCol + 1
         
     for c in range(vRange):
-        for d in range(c,c+7):
+        for d in range(c,c+8):
             for l in range(nRow):
                 # display a activer
                 display.set_pixel(7-l,d-c,vDisp[d][l])
