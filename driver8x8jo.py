@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 # driver8x8jo.py
 # --------------
 # driver to display texts and numbers on the Adafruit 8x8 leds display with backpack
@@ -18,6 +21,7 @@ import time
 from Adafruit_LED_Backpack import BicolorMatrix8x8
     
 # Digit value to bitmask mapping:
+#     '°-000000',
 DIGIT_VALUES = {
     ' -000000',
     '%-025004019000',
@@ -25,7 +29,11 @@ DIGIT_VALUES = {
     '--004004004000',
     '.-016000',
     '!-023000',
+    ':-010000',
     '/-024004024000',
+    '>-017010004000',
+    '<-004010017000',
+    '^-004002004000',
     '0-014017014000',
     '1-002031000',
     '2-018025022000',

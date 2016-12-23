@@ -6,4 +6,4 @@ vTxt = 'Hello la gang. Welcome chez Meme Condo'
 vTxt = 'iaiai'
 vTxt = 'abcdefghijklmnopqrstuvwxyz 0123456789'
 vTxt = 'The quick brown fox jumps over the lazy dog'
-display_scroll(vTxt,2,1,True, False)
+display_scroll(vTxt,2,0,True, False)
