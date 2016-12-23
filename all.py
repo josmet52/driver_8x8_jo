@@ -145,7 +145,7 @@ while True:
    
    print ''
    print('Infinite loop. CTRL-C for break')
-   print ''
+#   print ''
    
    i = 0
    while i < count:
@@ -153,9 +153,9 @@ while True:
       print('Sensor '+sensorId+' mesure '+str(temperature)+'°C')
       vTxt = 'DS18B20 temp: '+str(temperature)+'°C'
       if temperature < 19 : vColor = 3
-      elif temperature > 21 : vColor =2
+      elif temperature > 24 : vColor =2
       else : vColor = 1
-      display_scroll(vTxt,2,0,False, False)
+      display_scroll(vTxt,vColor,0,False, False)
       i += 1
 
    # test_dht11
@@ -166,12 +166,16 @@ while True:
    humidity, temperature = Adafruit_DHT.read_retry(22, in_DH22)
    print 'DHT22 temp: {0:0.1f}°C  Humidity: {1:0.1f} %'.format(temperature, humidity)
    vTxt = 'DHT22 temp: {0:0.1f}°C  Hrel: {1:0.1f} %'.format(temperature, humidity)
-   display_scroll(vTxt,1,0,False, False)
+   if temperature < 19 : vColor = 3
+   elif temperature > 24 : vColor =2
+   else : vColor = 1
+   display_scroll(vTxt,vColor,0,False, False)
 
+   # light and infrared sensors
    vLight = not GPIO.input(in_LCD)
    vPir = GPIO.input(in_PIR)
 
-   # test LCD
+   # LCD
    if vLight :
       print 'light ON' ,
       display_scroll('light ON',1,0,False, False)
@@ -179,7 +183,7 @@ while True:
       print 'light OFF' ,
       display_scroll('light OFF',1,0,False, False)
 
-   # test PIR
+   # PIR
    if vPir :
       print 'pir ON'
       display_scroll('PIR ON',1,0,False, False)
@@ -219,25 +223,44 @@ while True:
    vbtn_up = GPIO.input(in_btn_up)
    vbtn_down = GPIO.input(in_btn_down)
 
-   if vbtn_red :
-      print 'RED button pressed'
-      vTxt = 'The quick brown fox jumps over the lazy dog 1234567890'
-      display_scroll(vTxt,2,0,False, False)
-   if vbtn_green :
-      print 'GREEN button pressed'
-      vTxt = 'The quick brown fox jumps over the lazy dog 1234567890'
-      display_scroll(vTxt,1,0,False, False)
-   if vbtn_blue :
-      print 'BLUE button pressed'
-      vTxt = 'The quick brown fox jumps over the lazy dog 1234567890'
-      display_scroll(vTxt,3,0,False, False)
-   if vbtn_left :
-      print '<  button pressed'
-   if vbtn_right :
-      print '>  button pressed'
-   if vbtn_up :
-      print '^  button pressed'
-   if vbtn_down :
-      print 'v  button pressed'
+   vRepeat = vbtn_red or vbtn_green or vbtn_blue or vbtn_left or vbtn_right or vbtn_up or vbtn_down
+   while vRepeat:
+      if vbtn_red :
+         print 'RED button pressed'
+         vTxt = 'The quick brown fox jumps over the lazy dog 1234567890'
+         display_scroll(vTxt,2,0,False, False)
+      if vbtn_green :
+         print 'GREEN button pressed'
+         vTxt = 'The quick brown fox jumps over the lazy dog 1234567890'
+         display_scroll(vTxt,1,0,False, False)
+      if vbtn_blue :
+         print 'BLUE button pressed'
+         vTxt = 'The quick brown fox jumps over the lazy dog 1234567890'
+         display_scroll(vTxt,3,0,False, False)
+      if vbtn_left :
+         print '<  button pressed'
+         vTxt = '<<<<<<<<'
+         display_scroll(vTxt,3,0,False, False)
+      if vbtn_right :
+         print '>  button pressed'
+         vTxt = '>>>>>>>>'
+         display_scroll(vTxt,3,0,False, False)
+      if vbtn_up :
+         print '^  button pressed'
+         vTxt = '^^^^^^^^^^'
+         display_scroll(vTxt,3,0,False, False)
+      if vbtn_down :
+         print 'v  button pressed'
+         vTxt = ',,,,,,,,,'
+         display_scroll(vTxt,3,0,False, False)
+
+      vbtn_red = GPIO.input(in_btn_red)
+      vbtn_green = GPIO.input(in_btn_green)
+      vbtn_blue = GPIO.input(in_btn_blue)
+      vbtn_left = GPIO.input(in_btn_left)
+      vbtn_right = GPIO.input(in_btn_right)
+      vbtn_up = GPIO.input(in_btn_up)
+      vbtn_down = GPIO.input(in_btn_down)
+      vRepeat = vbtn_red or vbtn_green or vbtn_blue or vbtn_left or vbtn_right or vbtn_up or vbtn_down
    
 
