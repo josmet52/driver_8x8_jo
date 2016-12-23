@@ -1,3 +1,19 @@
+# driver8x8jo.py
+# --------------
+# driver to display texts and numbers on the Adafruit 8x8 leds display with backpack
+#
+# dec 2016
+# J. Metrailler / joseph.metrailler@bluewin.ch
+#
+# call example : display_scroll(vTxt, txtColor, baseLineColor, scrollNonStop, letLastDataOnScreen)
+#
+# with  vTxt                : the text to display. The lower case char are automatiquely converted in upper case
+#       txtColor            : the color of the displayed text : 0=not displayed, 1=green, 2=red, 3=orange
+#       baselineColor       : the color of the base line : 0=not displayed, 1=green, 2=red, 3=orange
+#       scrollNonStop       : when True the texte restart when finished
+#       letLastDataOnScreen : when True the last data stay on display
+#
+
 import time
 from Adafruit_LED_Backpack import BicolorMatrix8x8
     
@@ -50,67 +66,77 @@ DIGIT_VALUES = {
 }
     
 
-def display_scroll(vTxt, txtColor, baseLineColor, letLastDataOnScreen):
+def display_scroll(vTxt, txtColor, baseLineColor, scrollNonStop, letLastDataOnScreen):
 
-    vTxt = vTxt.upper() # les minuscules sont converties en majuscules
+    vTxt = vTxt.upper() # lower case char are converted in upper case 
+    # because not possible lower case char on a 3x5 matrix
     
     # Create display instance on default I2C address (0x70) and bus number.
     display = BicolorMatrix8x8.BicolorMatrix8x8()
     display.begin()
-
-    vCol = 7 # on part depuis la colonne 7
-    nCol = 1000 # aux max 1000 colonnes soir environ 250 caracteres
-    nRow = 8 # matrice de 8x8 leds
-    vDisp = [[0]*nRow for k in range(nCol)] # declaration d'un array 1000 col de 8 leds
+    display.clear()
     
-    for c in vTxt: # pour tous les caractres de vTxt
-        for d in DIGIT_VALUES: # on recherche la correspondance
-            if d[0] == c:
-                vStart = 2
-                vStop = vStart + 3
-                while vStop < len(d):
+    vCol = 7 # start on the sevens column (the right of the display)
+    nCol = 1000 # max 1000 column so about 250 char
+    nRow = 8 # 8x8 leds matrix
+    vDisp = [[0]*nRow for k in range(nCol)] # the array of 1000 columns and 8 rows filled with 0
+
+    # Prepare the display matrix
+    for c in vTxt: # for each char in vTxtx
+        for d in DIGIT_VALUES: # search the char
+            if d[0] == c: # char found
+                vStart = 2 # coding start at thirst char
+                vStop = vStart + 3 # every value coded on 3 char
+
+                # find the bits for each coded value
+                while vStop <= len(d):
                     i=int(d[vStart:vStop])
-                    if i&1 <> 0:
+
+                    # codage du caractere
+                    if i&1 <> 0: # bit0
                         vDisp[vCol][0]=txtColor
-                    if i&2 <> 0:
+                    if i&2 <> 0: # bit1
                         vDisp[vCol][1]=txtColor
-                    if i&4 <> 0:
+                    if i&4 <> 0: # bit2
                         vDisp[vCol][2]=txtColor
-                    if i&8 <> 0:
+                    if i&8 <> 0: # bit 3
                         vDisp[vCol][3]=txtColor
-                    if i&16 <> 0:
+                    if i&16 <> 0: # bit 4
                         vDisp[vCol][4]=txtColor
-                    if i&32 <> 0:
+                    if i&32 <> 0: # bit 5
                         vDisp[vCol][5]=txtColor
-                    if baseLineColor <> 0:
-                        vDisp[vCol][6]=baseLineColor
-                    if baseLineColor <> 0:
-                        vDisp[vCol][7]=baseLineColor
-                    
+
+                    # Codage de la ligne de base
+                    vDisp[vCol][6]=baseLineColor
+                    vDisp[vCol][7]=baseLineColor
+
+                    # on prepare la valeur suivante
                     vStart=vStop
                     vStop = vStart + 3
                     vCol+=1
 
-        if baseLineColor <> 0:
-            vDisp[vCol][6]=baseLineColor
-        if baseLineColor <> 0:
-            vDisp[vCol][7]=baseLineColor
-        vCol+=1
-        
-    display.clear()
-    
     if letLastDataOnScreen:
         vRange = vCol-7
-    else:
+    else: # clear the screen when the scroll finished
         vRange = vCol + 1
-        
-    for c in range(vRange):
-        for d in range(c,c+8):
-            for l in range(nRow):
-                # display a activer
-                display.set_pixel(7-l,d-c,vDisp[d][l])
-            display.write_display()
-        time.sleep(0.15)
+
+    if not scrollNonStop:
+        for c in range(vRange):
+            for d in range(c,c+8):
+                for l in range(nRow):
+                    # display a activer
+                    display.set_pixel(7-l,d-c,vDisp[d][l])
+                display.write_display()
+            time.sleep(0.15)
+    else:
+        while True:
+            for c in range(vRange):
+                for d in range(c,c+8):
+                    for l in range(nRow):
+                        # display a activer
+                        display.set_pixel(7-l,d-c,vDisp[d][l])
+                    display.write_display()
+                time.sleep(0.15)
                 
             
         

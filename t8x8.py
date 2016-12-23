@@ -1,6 +1,9 @@
 from driver8x8jo import display_scroll
 import time
 
-vTxt = 'abcdefghijklmnopqrstuvwxyz 0123456789'
 vTxt = 'On y est arrive ... cool ! 20'
-display_scroll(vTxt,3,1,False)
+vTxt = 'Hello la gang. Welcome chez Meme Condo'
+vTxt = 'iaiai'
+vTxt = 'abcdefghijklmnopqrstuvwxyz 0123456789'
+vTxt = 'The quick brown fox jumps over the lazy dog'
+display_scroll(vTxt,2,1,True, False)
