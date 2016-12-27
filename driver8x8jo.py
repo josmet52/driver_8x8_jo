@@ -114,6 +114,10 @@ def display_scroll(vTxt, txtColor, baseLineColor, scrollNonStop, letLastDataOnSc
                         vDisp[vCol][4]=txtColor
                     if i&32 <> 0: # bit 5
                         vDisp[vCol][5]=txtColor
+##                    if i&64 <> 0: # bit 6
+##                        vDisp[vCol][6]=txtColor
+##                    if i&128 <> 0: # bit 7
+##                        vDisp[vCol][7]=txtColor
 
                     # Codage de la ligne de base
                     vDisp[vCol][6]=baseLineColor

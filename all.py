@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
 
 import os
 import time
@@ -144,23 +144,29 @@ draw_black = ImageDraw.Draw(image_black)
 while True:
    
    print ''
-   print('Infinite loop. CTRL-C for break')
+   print ('Infinite loop. CTRL-C for break')
 #   print ''
-   
+
+   mTemp = 0
    i = 0
+   vColor = 3
    while i < count:
       temperature,sensorId,mesureStatus = sensorArray.tempC(i)
       print('Sensor '+sensorId+' mesure '+str(temperature)+'°C')
-      vTxt = 'DS18B20 temp: '+str(temperature)+'°C'
-      if temperature < 19 : vColor = 3
-      elif temperature > 24 : vColor =2
-      else : vColor = 1
-      display_scroll(vTxt,vColor,0,False, False)
+      mTemp += temperature
       i += 1
+   mTemp /= i
+   vTxt = '18b20 mean on {0:d} sensors = {1:0.1f}°C'.format(i,mTemp)
+   display_scroll(vTxt,vColor,0,False, False)
 
    # test_dht11
-#   humidity, temperature = Adafruit_DHT.read_retry(11, in_DH11)
-#   print 'DH11 -> Temp: {0:0.1f} C  Humidity: {1:0.1f} %'.format(temperature, humidity)
+   humidity, temperature = Adafruit_DHT.read_retry(11, in_DH11)
+   print 'DHT11 temp: {0:0.1f}°C  Humidity: {1:0.1f} %'.format(temperature, humidity)
+   vTxt = 'DHT11 temp: {0:0.1f}°C  Hrel: {1:0.1f} %'.format(temperature, humidity)
+   if temperature < 19 : vColor = 3
+   elif temperature > 24 : vColor =2
+   else : vColor = 1
+   display_scroll(vTxt,vColor,0,False, False)
 
    # test_am2302 (dht22 avec boitier et cables)
    humidity, temperature = Adafruit_DHT.read_retry(22, in_DH22)
