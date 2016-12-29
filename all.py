@@ -157,12 +157,13 @@ while True:
       i += 1
    mTemp /= i
    vTxt = '18b20 mean on {0:d} sensors = {1:0.1f}°C'.format(i,mTemp)
+   print('    '+vTxt)
    display_scroll(vTxt,vColor,0,False, False)
 
    # test_dht11
    humidity, temperature = Adafruit_DHT.read_retry(11, in_DH11)
-   print 'DHT11 temp: {0:0.1f}°C  Humidity: {1:0.1f} %'.format(temperature, humidity)
-   vTxt = 'DHT11 temp: {0:0.1f}°C  Hrel: {1:0.1f} %'.format(temperature, humidity)
+   print 'DHT11 temp: {0:0.0f}°C  Humidity: {1:0.0f} %'.format(temperature, humidity)
+   vTxt = 'DHT11 temp: {0:0.0f}°C  Hrel: {1:0.0f} %'.format(temperature, humidity)
    if temperature < 19 : vColor = 3
    elif temperature > 24 : vColor =2
    else : vColor = 1
